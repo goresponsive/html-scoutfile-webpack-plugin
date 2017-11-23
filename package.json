@@ -1,0 +1,23 @@
+{
+  "name": "html-scoutfile-webpack-plugin",
+  "version": "1.0.0",
+  "description": "A Webpack plugin to create a single scoutfile for all your Webpack assets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "scoutfile"
+  ],
+  "author": "JP Erasmus <jperasmus11@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "4.0.2",
+    "uglify-js": "3.1.10"
+  },
+  "peerDependencies": {
+    "html-webpack-plugin": "^2.30.1"
+  }
+}

@@ -1,0 +1,59 @@
+# useful resource if you find yourself staring at this file - http://git-scm.com/docs/gitignore
+# Ignore dot files, except git stuff
+.*
+!.git*
+
+# and editorconfig
+!.editorconfig
+
+# and eslint
+!.eslintrc*
+!.eslintignore*
+
+# and prettier
+!.prettierrc
+
+# and babel
+!.babelrc*
+!.babelignore*
+
+# Ignore poop some software leaves in folders
+Thumbs.db
+_*
+!_*.scss
+!_*.html
+!_*.jst
+
+# Ignore "backup" copies because they are almost certainly redundant
+*.bak
+*.BAK
+*.back
+*.BACK
+*.backup
+*.BACKUP
+*.old
+*.OLD
+Copy of *
+*~
+
+# Ignore log, lock, and temp files
+*.log
+*.LOG
+*.lck
+*.LCK
+*.lock
+*.LOCK
+*.tmp
+*.TMP
+*.temp
+*.TEMP
+!yarn.lock
+
+# Generated stuff
+*.class
+
+*.tap
+node_modules
+
+*.iml
+.idea
