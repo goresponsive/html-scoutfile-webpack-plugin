@@ -3,7 +3,7 @@ const fs = require('fs-extra');
 const UglifyJS = require('uglify-js');
 
 class ScoutFileHtmlWebpackPlugin {
-  constructor() {
+  constructor(config = {}) {
     this._scoutFileTemplate = `
     function injectElement(options) {
       options = options || {};
@@ -19,6 +19,7 @@ class ScoutFileHtmlWebpackPlugin {
       parentElement.appendChild(el);
     }
     `;
+    this.publicPathOverwrite = config.publicPathOverwrite;
   }
 
   apply(compiler) {
@@ -39,7 +40,7 @@ class ScoutFileHtmlWebpackPlugin {
               closeTag: true,
               attributes: {
                 type: 'text/javascript',
-                src: `${compiler.options.output.publicPath}${filename}`
+                src: `${this.publicPathOverwrite || compiler.options.output.publicPath || ''}${filename}`
               }
             }
           ]
