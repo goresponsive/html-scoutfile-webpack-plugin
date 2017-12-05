@@ -11,6 +11,9 @@
     "plugin",
     "scoutfile"
   ],
+  "files": [
+    "index.js"
+  ],
   "author": "JP Erasmus <jperasmus11@gmail.com>",
   "license": "ISC",
   "dependencies": {

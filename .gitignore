@@ -1,7 +1,7 @@
 # useful resource if you find yourself staring at this file - http://git-scm.com/docs/gitignore
 # Ignore dot files, except git stuff
 .*
-!.git*
+!.gitignore
 
 # and editorconfig
 !.editorconfig
