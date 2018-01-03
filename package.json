@@ -1,6 +1,6 @@
 {
   "name": "html-scoutfile-webpack-plugin",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A Webpack plugin to create a single scoutfile for all your Webpack assets",
   "main": "index.js",
   "scripts": {
