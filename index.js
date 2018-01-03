@@ -62,26 +62,29 @@ class ScoutFileHtmlWebpackPlugin {
     });
   }
 
-  getAssetSource(asset) {
+  getAssetAttributes(asset) {
     if (typeof this._assetPublicPathOverwrite !== 'string') {
-      return asset.attributes.src;
+      return asset.attributes;
     }
 
-    const filename = asset.attributes.src.split('/').pop();
-    return path.join(this._assetPublicPathOverwrite, filename);
+    const { attributes } = asset;
+
+    const sourceAttribute = attributes.hasOwnProperty('src') ? 'src' : 'href';
+    const source = attributes[sourceAttribute];
+    const filename = source ? source.split('/').pop() : 'SOURCE_NOT_FOUND';
+    return Object.assign(attributes, { [sourceAttribute]: path.join(this._assetPublicPathOverwrite, filename) });
   }
 
   generateTemplate(pluginData) {
     const assets = [];
 
     pluginData.head.forEach(asset => {
-      const src = this.getAssetSource(asset);
-      assets.push(Object.assign({}, asset, { parent: 'head', attributes: Object.assign(asset.attributes, { src }) }));
+      assets.push(Object.assign({}, asset, { parent: 'head', attributes: this.getAssetAttributes(asset) }));
     });
 
     pluginData.body.forEach(asset => {
       const src = this.getAssetSource(asset);
-      assets.push(Object.assign({}, asset, { parent: 'body', attributes: Object.assign(asset.attributes, { src }) }));
+      assets.push(Object.assign({}, asset, { parent: 'body', attributes: this.getAssetAttributes(asset) }));
     });
 
     return UglifyJS.minify(
