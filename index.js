@@ -4,6 +4,7 @@ const UglifyJS = require('uglify-js');
 
 class ScoutFileHtmlWebpackPlugin {
   constructor(config = {}) {
+    this._assetPublicPathOverwrite = config.assetPublicPathOverwrite;
     this._scoutFileTemplate = `
     function injectElement(options) {
       options = options || {};
@@ -19,7 +20,6 @@ class ScoutFileHtmlWebpackPlugin {
       parentElement.appendChild(el);
     }
     `;
-    this.publicPathOverwrite = config.publicPathOverwrite;
   }
 
   apply(compiler) {
@@ -40,7 +40,7 @@ class ScoutFileHtmlWebpackPlugin {
               closeTag: true,
               attributes: {
                 type: 'text/javascript',
-                src: `${this.publicPathOverwrite || compiler.options.output.publicPath || ''}${filename}`
+                src: `${compiler.options.output.publicPath || ''}${filename}`
               }
             }
           ]
@@ -62,15 +62,26 @@ class ScoutFileHtmlWebpackPlugin {
     });
   }
 
+  getAssetSource(asset) {
+    if (typeof this._assetPublicPathOverwrite !== 'string') {
+      return asset.attributes.src;
+    }
+
+    const filename = asset.attributes.src.split('/').pop();
+    return path.join(this._assetPublicPathOverwrite, filename);
+  }
+
   generateTemplate(pluginData) {
     const assets = [];
 
     pluginData.head.forEach(asset => {
-      assets.push(Object.assign({}, asset, { parent: 'head' }));
+      const src = this.getAssetSource(asset);
+      assets.push(Object.assign({}, asset, { parent: 'head', attributes: Object.assign(asset.attributes, { src }) }));
     });
 
     pluginData.body.forEach(asset => {
-      assets.push(Object.assign({}, asset, { parent: 'body' }));
+      const src = this.getAssetSource(asset);
+      assets.push(Object.assign({}, asset, { parent: 'body', attributes: Object.assign(asset.attributes, { src }) }));
     });
 
     return UglifyJS.minify(

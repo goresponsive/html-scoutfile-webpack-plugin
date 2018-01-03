@@ -29,18 +29,18 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScoutFileWebpackPlugin = require('html-scoutfile-webpack-plugin');
 
-var webpackConfig = {
+module.exports = {
   entry: 'index.js',
 
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'index_bundle.js'
+    filename: 'bundle.js'
   },
 
   plugins: [
     new HtmlWebpackPlugin({
       title: 'My App',
-      filename: 'assets/admin.html',
+      filename: 'index.html',
       // Name your scoutfile here
       scoutFile: 'scoutfile.js'
     }),
@@ -49,4 +49,18 @@ var webpackConfig = {
     new ScoutFileWebpackPlugin()
   ]
 };
+```
+
+### Options
+
+Additionally, an `options` object can be passed to `new ScoutFileWebpackPlugin()`.
+
+#### assetPublicPathOverwrite
+
+If you find yourself in the situation where you need to serve up your `index.html` file from an arbitrary path, the relative paths to your assets will simply not work. For instances like that, use this setting to overwrite the path to fit your needs:
+
+```javascript
+new ScoutFileWebpackPlugin({
+  assetPublicPathOverwrite: '../../path/to/your/assets/'
+});
 ```
