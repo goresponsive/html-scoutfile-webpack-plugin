@@ -83,7 +83,6 @@ class ScoutFileHtmlWebpackPlugin {
     });
 
     pluginData.body.forEach(asset => {
-      const src = this.getAssetSource(asset);
       assets.push(Object.assign({}, asset, { parent: 'body', attributes: this.getAssetAttributes(asset) }));
     });
 
