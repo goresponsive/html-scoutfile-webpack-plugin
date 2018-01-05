@@ -11,6 +11,7 @@ class ScoutFileHtmlWebpackPlugin {
       var parent = options.parent || 'body';
       var parentElement = document[parent] || document.getElementsByTagName(parent)[0];
       var el = document.createElement(options.tagName);
+      el.setAttribute('async', false);
 
       for (var attr in options.attributes) {
         if (options.attributes.hasOwnProperty(attr)) {
@@ -68,12 +69,11 @@ class ScoutFileHtmlWebpackPlugin {
     }
 
     const { attributes } = asset;
-
     const sourceAttribute = attributes.hasOwnProperty('src') ? 'src' : 'href';
-    const source = attributes[sourceAttribute];
-    const filename = source ? source.split('/').pop() : 'SOURCE_NOT_FOUND';
+    const { base } = path.parse(attributes[sourceAttribute]);
+    const separatorPattern = new RegExp(path.sep, 'g');
     return Object.assign(attributes, {
-      [sourceAttribute]: path.join(this._assetPublicPathOverwrite, filename).replace(/\\/g, '/')
+      [sourceAttribute]: path.join(this._assetPublicPathOverwrite, base).replace(separatorPattern, '/')
     });
   }
 
