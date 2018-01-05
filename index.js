@@ -72,7 +72,9 @@ class ScoutFileHtmlWebpackPlugin {
     const sourceAttribute = attributes.hasOwnProperty('src') ? 'src' : 'href';
     const source = attributes[sourceAttribute];
     const filename = source ? source.split('/').pop() : 'SOURCE_NOT_FOUND';
-    return Object.assign(attributes, { [sourceAttribute]: path.join(this._assetPublicPathOverwrite, filename) });
+    return Object.assign(attributes, {
+      [sourceAttribute]: path.join(this._assetPublicPathOverwrite, filename).replace(/\\/g, '/')
+    });
   }
 
   generateTemplate(pluginData) {
